@@ -488,3 +488,73 @@
           changeEl.textContent = '+0.00%';
           changeEl.className = 'ticker-change up';
         }
+      }
+
+      function updateStats() {
+        const volEl = $('statVol');
+        const tradesEl = $('statTrades');
+        const highEl = $('statHigh');
+        if (volEl) volEl.textContent = totalVol >= 1e6 ? (totalVol / 1e6).toFixed(2) + 'M' : (totalVol >= 1e3 ? (totalVol / 1e3).toFixed(2) + 'K' : totalVol);
+        if (tradesEl) tradesEl.textContent = String(tradeCount);
+        if (highEl) highEl.textContent = high24h.toFixed(4);
+      }
+
+      function updateOrderBook() {
+        const bidsEl = $('orderBookBids');
+        const asksEl = $('orderBookAsks');
+        if (bidsEl) {
+          bidsEl.innerHTML = bids.map(b => `<div class="ob-row bid"><span class="ob-price">${b.price.toFixed(4)}</span><span class="ob-size">${b.size.toLocaleString()}</span></div>`).join('');
+        }
+        if (asksEl) {
+          asksEl.innerHTML = asks.map(a => `<div class="ob-row ask"><span class="ob-price">${a.price.toFixed(4)}</span><span class="ob-size">${a.size.toLocaleString()}</span></div>`).join('');
+        }
+      }
+
+      function updateBalances() {
+        $('balMoon').textContent = formatBal(balanceMoon);
+        $('balUsdt').textContent = formatBal(balanceUsdt);
+      }
+
+      function formatBal(s) {
+        if (!s || s === '0') return '0';
+        const n = parseFloat(s);
+        if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
+        if (n >= 1e3) return (n / 1e3).toFixed(2) + 'K';
+        if (n >= 1) return n.toFixed(4);
+        return n.toFixed(6);
+      }
+
+      function recalcOut() {
+        const amt = parseFloat($('amountIn').value) || 0;
+        const price = parseFloat($('priceIn').value) || lastPrice;
+        const out = amt * price;
+        $('amountOut').value = out > 0 ? out.toFixed(4) : '';
+      }
+
+      function setSide(side) {
+        currentSide = side;
+        document.querySelectorAll('.trade-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.trade-tab[data-side="${side}"]`).classList.add('active');
+        show($('btnBuy'), side === 'buy');
+        show($('btnSell'), side === 'sell');
+        $('youGetHint').textContent = side === 'buy' ? '≈' : '≈';
+        recalcOut();
+      }
+
+      function switchTab(tabId) {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        const t = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
+        const c = document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+        if (t) t.classList.add('active');
+        if (c) c.classList.add('active');
+        if (tabId === 'book') updateOrderBook();
+      }
+
+      async function connect() {
+        try {
+          if (!window.ethereum) {
+            showMsg('Install MetaMask or another Web3 wallet.', 'error');
+            return;
+          }
+          provider = new ethers.BrowserProvider(window.ethereum);
