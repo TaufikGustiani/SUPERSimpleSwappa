@@ -628,3 +628,67 @@
         tradeCount++;
         totalVol += amt * price;
         if (price > high24h) high24h = price;
+        lastPrice = price;
+        if (currentSide === 'buy') {
+          balanceMoon = String(parseFloat(balanceMoon) + amt);
+          balanceUsdt = String(parseFloat(balanceUsdt) - quoteAmt);
+        } else {
+          balanceMoon = String(parseFloat(balanceMoon) - amt);
+          balanceUsdt = String(parseFloat(balanceUsdt) + quoteAmt);
+        }
+        updateBalances();
+        updateTicker();
+        updateStats();
+        activityHistory.unshift({ side: currentSide, amt, price, time: new Date().toLocaleTimeString() });
+        showMsg(`${side} ${amt.toFixed(4)} MOON @ ${price.toFixed(4)} USDT. Slippage ${slippage}%.`, 'success');
+        const list = $('orderList');
+        const item = document.createElement('div');
+        item.className = 'order-item';
+        item.innerHTML = `<span class="order-side ${currentSide}">${side}</span><span class="order-price">${amt.toFixed(4)} @ ${price.toFixed(4)}</span><span class="order-qty">MOON</span>`;
+        if (list.querySelector('.pair-row')) list.innerHTML = '';
+        list.appendChild(item);
+      }
+
+      $('btnConnect').addEventListener('click', connect);
+      $('btnConnectBig').addEventListener('click', connect);
+      $('btnDisconnect').addEventListener('click', disconnect);
+      document.querySelectorAll('.trade-tab').forEach(t => t.addEventListener('click', () => setSide(t.dataset.side)));
+      document.querySelectorAll('.nav-tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+      $('amountIn').addEventListener('input', recalcOut);
+      $('priceIn').addEventListener('input', recalcOut);
+      $('btnMax').addEventListener('click', setMax);
+      document.querySelectorAll('.pct').forEach(b => b.addEventListener('click', () => setPct(parseInt(b.dataset.pct, 10))));
+      $('btnBuy').addEventListener('click', () => doTrade());
+      $('btnSell').addEventListener('click', () => doTrade());
+
+      function simulatePriceTick() {
+        if (!walletAddress) return;
+        const r = 0.9998 + Math.random() * 0.0004;
+        lastPrice = Math.max(0.5, lastPrice * r);
+        updateTicker();
+      }
+
+      setInterval(simulatePriceTick, 8000);
+
+      function getSlippage() {
+        const el = $('slippage');
+        return el ? parseFloat(el.value) || 0.5 : 0.5;
+      }
+
+      function validateAmounts() {
+        const amt = parseFloat($('amountIn').value) || 0;
+        const price = parseFloat($('priceIn').value) || lastPrice;
+        if (amt <= 0) return { ok: false, msg: 'Enter amount' };
+        const quote = amt * price;
+        if (currentSide === 'buy' && parseFloat(balanceUsdt) < quote) return { ok: false, msg: 'Insufficient USDT' };
+        if (currentSide === 'sell' && parseFloat(balanceMoon) < amt) return { ok: false, msg: 'Insufficient MOON' };
+        return { ok: true, amt, price, quote };
+      }
+
+      updateTicker();
+      updateStats();
+    })();
+  </script>
+</body>
+</html>
+
