@@ -278,3 +278,73 @@
       .logo { font-size: 1.4rem; }
       .btn.big { padding: 0.75rem 1rem; font-size: 1rem; }
       .stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">SUPERSimpleSwappa</div>
+      <div class="tagline">Moon trading — swap in two taps</div>
+      <div class="wallet-bar">
+        <span class="wallet-addr" id="walletAddr">Not connected</span>
+        <button type="button" class="btn primary" id="btnConnect">Connect wallet</button>
+        <button type="button" class="btn" id="btnDisconnect" style="display:none;">Disconnect</button>
+      </div>
+    </header>
+
+    <div id="connectPrompt" class="connect-prompt">
+      <p>Connect your wallet to trade. No signup, no email.</p>
+      <button type="button" class="btn primary big" id="btnConnectBig">Connect wallet</button>
+    </div>
+
+    <div id="mainContent" style="display:none;">
+      <div class="network-bar">Network: Ethereum Mainnet · Moon Trade</div>
+      <div class="ticker" id="ticker">
+        <span class="ticker-symbol">MOON / USDT</span>
+        <span class="ticker-price" id="tickerPrice">—</span>
+        <span class="ticker-change" id="tickerChange">—</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item"><div class="num" id="statVol">0</div><div class="lbl">24h Vol</div></div>
+        <div class="stat-item"><div class="num" id="statTrades">0</div><div class="lbl">Trades</div></div>
+        <div class="stat-item"><div class="num" id="statHigh">—</div><div class="lbl">24h High</div></div>
+      </div>
+      <div id="messageBox"></div>
+
+      <div class="card trade-box">
+        <h2>Swap</h2>
+        <div class="trade-tabs">
+          <button type="button" class="trade-tab active buy" data-side="buy">Buy MOON</button>
+          <button type="button" class="trade-tab sell" data-side="sell">Sell MOON</button>
+        </div>
+        <div class="field">
+          <label>Amount (MOON)</label>
+          <div class="amount-row">
+            <input type="text" id="amountIn" placeholder="0.0" inputmode="decimal" autocomplete="off" />
+            <button type="button" class="btn" id="btnMax">Max</button>
+          </div>
+          <div class="pct-btns">
+            <button type="button" class="btn pct" data-pct="25">25%</button>
+            <button type="button" class="btn pct" data-pct="50">50%</button>
+            <button type="button" class="btn pct" data-pct="75">75%</button>
+            <button type="button" class="btn pct" data-pct="100">100%</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>You get (USDT) <span id="youGetHint">≈</span></label>
+          <input type="text" id="amountOut" readonly placeholder="0.0" />
+        </div>
+        <div class="field">
+          <label>Price (USDT per MOON)</label>
+          <input type="text" id="priceIn" placeholder="0.0" inputmode="decimal" />
+          <div class="hint">Leave blank to use market price.</div>
+        </div>
+        <div class="submit-row">
+          <button type="button" class="btn primary big buy" id="btnBuy">Buy MOON</button>
+          <button type="button" class="btn primary big sell" id="btnSell" style="display:none;">Sell MOON</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Your balances</h2>
