@@ -208,3 +208,73 @@
     }
     .ticker-symbol { font-weight: 700; font-size: 1.2rem; color: var(--moon); }
     .ticker-price { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 500; }
+    .ticker-change { font-size: 0.85rem; }
+    .ticker-change.up { color: var(--green); }
+    .ticker-change.down { color: var(--red); }
+
+    .order-list { max-height: 220px; overflow-y: auto; }
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border-soft);
+      font-size: 0.88rem;
+    }
+    .order-item:last-child { border-bottom: none; }
+    .order-side.buy { color: var(--green); }
+    .order-side.sell { color: var(--red); }
+    .order-price { font-family: 'JetBrains Mono', monospace; }
+    .order-qty { color: var(--text-dim); }
+
+    .connect-prompt {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+    }
+    .connect-prompt p { color: var(--text-dim); margin-bottom: 1rem; }
+    .connect-prompt .btn { font-size: 1.05rem; padding: 0.75rem 1.5rem; }
+
+    footer { text-align: center; padding: 1.5rem 0; font-size: 0.78rem; color: var(--text-dim); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 480px) { .two-col { grid-template-columns: 1fr; } }
+    .order-book { max-height: 200px; overflow-y: auto; font-size: 0.85rem; }
+    .ob-row { display: flex; justify-content: space-between; padding: 0.35rem 0.75rem; border-bottom: 1px solid var(--border-soft); }
+    .ob-row.bid { background: rgba(52, 211, 153, 0.04); }
+    .ob-row.ask { background: rgba(248, 113, 113, 0.04); }
+    .ob-price { font-family: 'JetBrains Mono', monospace; }
+    .ob-size { color: var(--text-dim); }
+    .section-title { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    .faq-item { padding: 0.75rem 0; border-bottom: 1px solid var(--border-soft); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q { font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+    .faq-a { font-size: 0.9rem; color: var(--text-dim); }
+    .badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+    .badge.buy { background: rgba(52, 211, 153, 0.2); color: var(--green); }
+    .badge.sell { background: rgba(248, 113, 113, 0.2); color: var(--red); }
+    .slippage-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+    .slippage-row input { width: 80px; padding: 0.4rem; font-family: 'JetBrains Mono', monospace; }
+    .network-bar { padding: 0.5rem 1rem; background: var(--bg-panel); border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.8rem; color: var(--text-dim); text-align: center; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .nav-tabs { display: flex; gap: 0.25rem; margin-bottom: 1rem; }
+    .nav-tab { padding: 0.5rem 1rem; border-radius: var(--radius-sm); cursor: pointer; border: 1px solid var(--border); background: var(--bg-panel); color: var(--text-dim); font-weight: 500; }
+    .nav-tab.active { border-color: var(--moon); color: var(--moon); background: var(--moon-glow); }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .stat-item { padding: 0.6rem; background: var(--bg-panel); border-radius: var(--radius-sm); text-align: center; }
+    .stat-item .num { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--moon); }
+    .stat-item .lbl { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.2rem; }
+    .empty-state { padding: 1.5rem; text-align: center; color: var(--text-dim); font-size: 0.9rem; }
+    .price-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .price-row input { flex: 1; }
+    .gas-hint { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.5rem; }
+    .divider { height: 1px; background: var(--border-soft); margin: 1rem 0; }
+    .btn-block { display: block; width: 100%; text-align: center; }
+    @media (max-width: 380px) {
+      .app { padding: 1rem 0.75rem; }
+      .logo { font-size: 1.4rem; }
+      .btn.big { padding: 0.75rem 1rem; font-size: 1rem; }
+      .stats-grid { grid-template-columns: 1fr; }
