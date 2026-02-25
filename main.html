@@ -558,3 +558,73 @@
             return;
           }
           provider = new ethers.BrowserProvider(window.ethereum);
+          const accounts = await provider.send('eth_requestAccounts', []);
+          if (!accounts.length) { showMsg('No account selected.', 'error'); return; }
+          signer = await provider.getSigner();
+          walletAddress = accounts[0];
+          $('walletAddr').textContent = walletAddress.slice(0, 6) + '…' + walletAddress.slice(-4);
+          show($('connectPrompt'), false);
+          show($('mainContent'), true);
+          show($('btnConnect'), false);
+          show($('btnDisconnect'), true);
+          balanceMoon = '1000';
+          balanceUsdt = '5000';
+          updateBalances();
+          updateTicker();
+          updateStats();
+          updateOrderBook();
+          showMsg('Wallet connected.', 'success');
+        } catch (e) {
+          showMsg(e.message || 'Connection failed.', 'error');
+        }
+      }
+
+      function disconnect() {
+        provider = null;
+        signer = null;
+        walletAddress = null;
+        $('walletAddr').textContent = 'Not connected';
+        show($('connectPrompt'), true);
+        show($('mainContent'), false);
+        show($('btnConnect'), true);
+        show($('btnDisconnect'), false);
+      }
+
+      function setMax() {
+        const price = parseFloat($('priceIn').value) || lastPrice;
+        if (currentSide === 'buy') {
+          const maxMoon = parseFloat(balanceUsdt) / price;
+          $('amountIn').value = maxMoon > 0 ? maxMoon.toFixed(4) : '';
+        } else {
+          $('amountIn').value = balanceMoon && parseFloat(balanceMoon) > 0 ? balanceMoon : '';
+        }
+        recalcOut();
+      }
+
+      function setPct(pct) {
+        const price = parseFloat($('priceIn').value) || lastPrice;
+        let max = currentSide === 'buy' ? parseFloat(balanceUsdt) / price : parseFloat(balanceMoon);
+        const val = (max * pct / 100).toFixed(4);
+        $('amountIn').value = val;
+        recalcOut();
+      }
+
+      function doTrade() {
+        const amt = parseFloat($('amountIn').value) || 0;
+        if (amt <= 0) { showMsg('Enter an amount.', 'error'); return; }
+        const price = parseFloat($('priceIn').value) || lastPrice;
+        const slippageEl = $('slippage');
+        const slippage = slippageEl ? parseFloat(slippageEl.value) || 0.5 : 0.5;
+        const side = currentSide === 'buy' ? 'Buy' : 'Sell';
+        const quoteAmt = amt * price;
+        if (currentSide === 'buy' && parseFloat(balanceUsdt) < quoteAmt) {
+          showMsg('Insufficient USDT.', 'error');
+          return;
+        }
+        if (currentSide === 'sell' && parseFloat(balanceMoon) < amt) {
+          showMsg('Insufficient MOON.', 'error');
+          return;
+        }
+        tradeCount++;
+        totalVol += amt * price;
+        if (price > high24h) high24h = price;
