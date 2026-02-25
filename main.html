@@ -348,3 +348,73 @@
 
       <div class="card">
         <h2>Your balances</h2>
+        <div class="pair-row">
+          <span class="pair-label">MOON</span>
+          <span class="pair-value moon" id="balMoon">0</span>
+        </div>
+        <div class="pair-row">
+          <span class="pair-label">USDT</span>
+          <span class="pair-value" id="balUsdt">0</span>
+        </div>
+      </div>
+
+      <div class="nav-tabs">
+        <button type="button" class="nav-tab active" data-tab="activity">Activity</button>
+        <button type="button" class="nav-tab" data-tab="book">Order book</button>
+        <button type="button" class="nav-tab" data-tab="faq">FAQ</button>
+      </div>
+      <div id="tabActivity" class="tab-content active">
+        <div class="card">
+          <h2>Recent activity</h2>
+          <div class="order-list" id="orderList">
+            <div class="pair-row"><span class="pair-label">No trades yet</span><span class="pair-value text-dim">—</span></div>
+          </div>
+        </div>
+      </div>
+      <div id="tabBook" class="tab-content">
+        <div class="card">
+          <h2>Order book</h2>
+          <div class="section-title">Bids</div>
+          <div class="order-book" id="orderBookBids"></div>
+          <div class="section-title" style="margin-top:0.75rem">Asks</div>
+          <div class="order-book" id="orderBookAsks"></div>
+        </div>
+      </div>
+      <div id="tabFaq" class="tab-content">
+        <div class="card">
+          <h2>FAQ</h2>
+          <div class="faq-item">
+            <div class="faq-q">What is SUPERSimpleSwappa?</div>
+            <div class="faq-a">A super simple moon trading UI. Connect your wallet and swap MOON for USDT in two taps.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Do I need an account?</div>
+            <div class="faq-a">No. Just connect your Web3 wallet (e.g. MetaMask). No email or signup.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Which networks are supported?</div>
+            <div class="faq-a">Ethereum mainnet. Set your wallet to the correct network before trading.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">What are the fees?</div>
+            <div class="faq-a">Fees are set by the Moon Trade contract. Check the contract for current fee (e.g. 12 bps).</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">Is my wallet safe?</div>
+            <div class="faq-a">You only sign transactions. This UI never holds your funds; they stay in your wallet until you approve a swap.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">What is slippage?</div>
+            <div class="faq-a">Slippage is the max price move you accept. If the market moves more than that, the swap is cancelled to protect you.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Settings</h2>
+        <div class="field">
+          <label>Slippage tolerance (%)</label>
+          <div class="slippage-row">
+            <input type="number" id="slippage" value="0.5" min="0.1" max="50" step="0.1" />
+            <span>%</span>
+          </div>
+          <div class="gas-hint">Higher slippage may help in volatile markets; lower is safer.</div>
