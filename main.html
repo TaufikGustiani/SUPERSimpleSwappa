@@ -68,3 +68,73 @@
     }
     .btn {
       font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      padding: 0.6rem 1.1rem;
+      border: 1px solid var(--border);
+      background: var(--bg-panel);
+      color: var(--text);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      transition: border-color 0.15s, color 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { border-color: var(--moon-dim); color: var(--moon); }
+    .btn.primary {
+      background: var(--moon-dim);
+      border-color: var(--moon);
+      color: #fff;
+    }
+    .btn.primary:hover { box-shadow: 0 0 20px var(--moon-glow); }
+    .btn.buy { background: rgba(52, 211, 153, 0.12); border-color: var(--green-dim); color: var(--green); }
+    .btn.buy:hover { box-shadow: 0 0 16px rgba(52, 211, 153, 0.2); }
+    .btn.sell { background: rgba(248, 113, 113, 0.12); border-color: var(--red-dim); color: var(--red); }
+    .btn.sell:hover { box-shadow: 0 0 16px rgba(248, 113, 113, 0.2); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn.big { padding: 0.9rem 1.5rem; font-size: 1.1rem; border-radius: var(--radius); }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .card h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .pair-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border-soft);
+      font-size: 1rem;
+    }
+    .pair-row:last-child { border-bottom: none; }
+    .pair-label { color: var(--text-dim); }
+    .pair-value { font-family: 'JetBrains Mono', monospace; color: var(--text); font-weight: 500; }
+    .pair-value.green { color: var(--green); }
+    .pair-value.red { color: var(--red); }
+    .pair-value.moon { color: var(--moon); }
+
+    .trade-box {
+      margin-bottom: 1.25rem;
+    }
+    .trade-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .trade-tab {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
