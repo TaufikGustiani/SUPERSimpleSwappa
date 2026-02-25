@@ -418,3 +418,73 @@
             <span>%</span>
           </div>
           <div class="gas-hint">Higher slippage may help in volatile markets; lower is safer.</div>
+        </div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Contract (read-only)</label>
+          <input type="text" value="Moon Trade" readonly style="opacity:0.8" />
+        </div>
+      </div>
+      <div class="card">
+        <h2>About</h2>
+        <p style="font-size:0.9rem;color:var(--text-dim);line-height:1.6;">
+          SUPERSimpleSwappa is a minimal UI for moon-style token swaps. Connect your wallet, choose Buy or Sell MOON, enter amount and optional limit price, then confirm. Balances and activity update in real time. For live mainnet execution, point this UI to your deployed Moon Trade contract and token addresses.
+        </p>
+      </div>
+    </div>
+
+    <footer>SUPERSimpleSwappa · Moon trading · No signup</footer>
+  </div>
+
+  <script>
+    (function() {
+      const CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000';
+      const TOKEN_MOON = '0x0000000000000000000000000000000000000000';
+      const TOKEN_USDT = '0x0000000000000000000000000000000000000000';
+      const CHAIN_ID = 1;
+      const DECIMALS = 18;
+      const PRICE_FEED = 1.24;
+
+      let provider = null;
+      let signer = null;
+      let walletAddress = null;
+      let currentSide = 'buy';
+      let lastPrice = PRICE_FEED;
+      let balanceMoon = '0';
+      let balanceUsdt = '0';
+      let tradeCount = 0;
+      let totalVol = 0;
+      let high24h = PRICE_FEED;
+      const activityHistory = [];
+      const bids = [
+        { price: 1.23, size: 1200 },
+        { price: 1.22, size: 800 },
+        { price: 1.21, size: 2500 },
+        { price: 1.20, size: 900 },
+        { price: 1.19, size: 1100 }
+      ];
+      const asks = [
+        { price: 1.24, size: 1500 },
+        { price: 1.25, size: 700 },
+        { price: 1.26, size: 1800 },
+        { price: 1.27, size: 600 },
+        { price: 1.28, size: 1000 }
+      ];
+
+      const $ = (id) => document.getElementById(id);
+      const show = (el, on) => { if (el) el.style.display = on ? '' : 'none'; };
+      const showMsg = (text, type) => {
+        const box = $('messageBox');
+        if (!box) return;
+        box.innerHTML = text ? `<div class="message ${type || 'info'}">${text}</div>` : '';
+        if (text) setTimeout(() => { box.innerHTML = ''; }, 6000);
+      };
+
+      function updateTicker() {
+        const priceEl = $('tickerPrice');
+        const changeEl = $('tickerChange');
+        if (priceEl) priceEl.textContent = lastPrice.toFixed(4);
+        if (changeEl) {
+          changeEl.textContent = '+0.00%';
+          changeEl.className = 'ticker-change up';
+        }
